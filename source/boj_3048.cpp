@@ -19,13 +19,16 @@ using namespace std;
 
 /*
 1. 풀이 과정
+
 1) 개미 그룹 합치기
 - 두 개미 그룹을 하나의 string으로 만들어 줍니다.
 2) string flag
 - string에 flag를 추가하여 pair 형태로 만들고 
 right와 left를 찾아서 바꿔줍니다.
 - 단 , 해당 반복문에서 한 번 위치 변환한 개미는 다시 바꾸지 않도록 예외처리
+
 2. 어려웠던 부분
+
 1) pair 바꾸기
 = pair도 일반 변수처럼 tmp로 값을 변경 할 수 있습니다.
 2) string 정형화
