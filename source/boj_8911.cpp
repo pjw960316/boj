@@ -31,7 +31,7 @@ using namespace std;
 - sort부분의 적은 시간 조차 허용하지 않는듯?
 
 2. 어려웠던 부분
-
+- 시간복잡도 -> 문제에서 복잡도를 구할 수 없는 문제일 때 다른 문제가 나오면 고려.
 */
 
 int arr[1001][1001];
@@ -43,6 +43,7 @@ int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
+    cout.tie(NULL);
 	
     int test_case,flag=0;
     string str;
@@ -52,12 +53,8 @@ int main()
         cin >> str;
         memset(arr,0,sizeof(arr));
         flag = 0;
-        row_vec.clear();
-        col_vec.clear();
-
-        int row=500 , col=500;
-        row_vec.push_back(500);
-        col_vec.push_back(500);        
+        int row=500 , col=500; 
+        int min_x=500, min_y=500 , max_x =500 , max_y=500;      
 
         for(auto j: str)
         {
@@ -65,15 +62,19 @@ int main()
             {    
                 row += path[flag].first;
                 col += path[flag].second;
-                row_vec.push_back(row);
-                col_vec.push_back(col);
+                min_x = min(min_x , row);
+                min_y = min(min_y , col);
+                max_x = max(max_x , row);
+                max_y = max(max_y , col);
             }
             else if(j=='B')
             {
                 row -= path[flag].first;
-                col -= path[flag].second;  
-                row_vec.push_back(row);
-                col_vec.push_back(col);             
+                col -= path[flag].second; 
+                min_x = min(min_x , row);
+                min_y = min(min_y , col);
+                max_x = max(max_x , row);
+                max_y = max(max_y , col);                            
             }
             else if(j=='L')
             {                
@@ -97,34 +98,10 @@ int main()
                     flag = 0;
                 }                
             }
-        }        
-/*
-        for(auto i : row_vec)
-        {
-            cout << i << " ";
-        }
-        cout <<"\n";
-        for(auto i : col_vec)
-        {
-            cout << i << " ";
-        }
-        cout <<"\n";*/
-        sort(row_vec.begin() , row_vec.end());
-        sort(col_vec.begin() , col_vec.end());       
-        int r1 = row_vec[0];
-        int r2 = row_vec[row_vec.size()-1];
-        int c1 = col_vec[0];
-        int c2 = col_vec[col_vec.size()-1];
-        if(r1 == r2 || c1 == c2)
-        {
-            cout << 0 << "\n";
-        }
-        else
-        {
-            cout << abs(r2-r1) * abs(c2-c1) <<"\n";
-        }
- 
+        }   
+        cout << (max_x-min_x) * (max_y - min_y) <<"\n";  
     }
+
 	return 0;
 }
 
