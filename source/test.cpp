@@ -25,21 +25,17 @@ using namespace std;
 
 */
 
-list<int> l;
+vector<int> v;
 int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
 	
-    l.push_back(3);
-    l.push_back(2);
-    l.push_back(5);
-    l.push_back(4);
-    l.remove(2);
-    for(auto i : l)
-    {
-        cout << i;
-    }
+    v.reserve(10);
+    v.push_back(1233);
+    v.push_back(1233);
+    v.push_back(1233);
+    cout << v.capacity(); 
     
 	return 0;
 }
