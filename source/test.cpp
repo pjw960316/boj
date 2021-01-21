@@ -30,10 +30,11 @@ int main()
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
 	
-    bool arr[2] = {true , false};
-    memset(arr,-1,sizeof(arr));
-    cout << arr[0] << " " << arr[1];
-    return 0;
+    double a;
+    a = 37.2;
+    cout << sizeof(a);
+
+	return 0;
 }
 
 
