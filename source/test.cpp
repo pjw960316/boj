@@ -15,6 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <windows.h>
 
 using namespace std;
 
@@ -25,15 +26,27 @@ using namespace std;
 
 */
 
+vector<int> v;
 int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
-	
-    double a;
-    a = 37.2;
-    cout << sizeof(a);
+    
 
+    //1. 정상적인 포인터
+    int a = 77;
+    int *ptr = &a;
+    printf("%d" , *ptr);
+    
+    //2. NULL-Pointer에서 발생하는 2가지 Segmentation Fault
+    int *ptr_null; //same as int *nullptr = NULL;
+    
+        //1) 널 포인터에 어떤 값 할당하기.
+        *ptr_null = 7;
+        
+        //2) 널 포인터가 가리키는(사실은 아무것도 가리키지 않음) 변수 값 출력. 
+        printf("%d" , *ptr_null);
+    
 	return 0;
 }
 

@@ -20,17 +20,33 @@ using namespace std;
 
 /*
 1. 풀이 과정
+- 연구소 문제와 매우 유사합니다.
+- 모든 카메라 방향 조합을 DFS로 구하고 
+그 때 마다 감시 지역을 검사합니다.
 
 2. 어려웠던 부분
 
 1) N과M조합
-= N과M조합 에 대한 문제를 풀고나니 할만 했습니다.
+- N과M조합이 아직도 익숙하지 않아서
+백준의 관련 문제집을 풀고나니 할만 했습니다.
+
+2) 확실한 구현 그러나 긴 코드
+- 브루트 포스다 보니 확실한 구현 방법이 있으나
+코드가 길어져 두려움을 계속 느낍니다.
+
+3) 문제이해 실패
+- 1번 카메라가 오른쪽을 보면 모든 1번이 오른쪽을 보는 방식으로 이해함.
+
+4) 잦은 ERROR -> 아래의 주석
+
+3. 토론점
+- Search()의 코드 길이를 줄이고 싶어.
 */
 
 int n , m;
 int arr[10][10];
 int old_arr[10][10];
-int flag[100];
+int flag[10];
 int result = 9999999;
 int cctv=0;
 pair<int,int> path[4] = {{-1,0},{0,1},{1,0},{0,-1}};
@@ -40,117 +56,147 @@ void Search()
 {
     int next_x , next_y , check;
     int index=0;
-    for(int i=1; i<=n; i++)
+    int cctv_cnt=1;
+
+    for(int i=1; i<=n; i++)//flag에 해당 반복문의 탐색순서로 저장했기 때문에 cctv_cnt를 더해가면서 계산합니다.
     {
         for(int j=1; j<=m; j++)
         {
             if(arr[i][j] == 1)
-            {
+            {                
                 check = 1;
                 while(1)
                 {
-                    next_x = i+(path[flag[1]].first)*check;
-                    next_y = j+(path[flag[1]].second)*check;
+                    next_x = i+(path[flag[cctv_cnt]].first)*check;
+                    next_y = j+(path[flag[cctv_cnt]].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;
+                    if(arr[next_x][next_y] == 0) //ERROR_1 : if문이 없이 모두 7로 바꿨는데, 이러면 다른 cctv를 없애버립니다.
+                    {
+                        arr[next_x][next_y] = 7;
+                    }
                     check++;
-                }   
+                }
+                cctv_cnt++;   
             }
             else if(arr[i][j] == 2)
             {
                 check = 1;
                 while(1)
                 {
-                    next_x = i+(path[flag[2]].first)*check;
-                    next_y = j+(path[flag[2]].second)*check;
+                    next_x = i+(path[flag[cctv_cnt]].first)*check;
+                    next_y = j+(path[flag[cctv_cnt]].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }
                     check++;
                 }
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[flag[2]+2].first)*check;
-                    next_y = j+(path[flag[2]+2].second)*check;
+                    next_x = i+(path[(flag[cctv_cnt]+2)%4].first)*check;
+                    next_y = j+(path[(flag[cctv_cnt]+2)%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;   
-                }               
+                }    
+                cctv_cnt++;           
             }
             else if(arr[i][j] == 3)
             {
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[flag[3]%4].first)*check;
-                    next_y = j+(path[flag[3]%4].second)*check;
+                    next_x = i+(path[flag[cctv_cnt]%4].first)*check;
+                    next_y = j+(path[flag[cctv_cnt]%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }   
                     check++;  
                 }
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[(flag[3]+1)%4].first)*check;
-                    next_y = j+(path[(flag[3]+1)%4].second)*check;
+                    next_x = i+(path[(flag[cctv_cnt]+1)%4].first)*check;
+                    next_y = j+(path[(flag[cctv_cnt]+1)%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y ||arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    } 
                     check++;  
-                }  
+                } 
+                cctv_cnt++; 
             }
             else if(arr[i][j] == 4)
             {
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[flag[4]%4].first)*check;
-                    next_y = j+(path[flag[4]%4].second)*check;
+                    next_x = i+(path[flag[cctv_cnt]%4].first)*check;
+                    next_y = j+(path[flag[cctv_cnt]%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y ||arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;  
                 }
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[(flag[4]+1)%4].first)*check;
-                    next_y = j+(path[(flag[4]+1)%4].second)*check;
+                    next_x = i+(path[(flag[cctv_cnt]+1)%4].first)*check;
+                    next_y = j+(path[(flag[cctv_cnt]+1)%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;  
                 }
                 check = 1;
                 while(1)
                 {                    
-                    next_x = i+(path[(flag[4]+2)%4].first)*check;
-                    next_y = j+(path[(flag[4]+2)%4].second)*check;
+                    next_x = i+(path[(flag[cctv_cnt]+2)%4].first)*check;
+                    next_y = j+(path[(flag[cctv_cnt]+2)%4].second)*check;
                     if(next_x < 1 || next_y < 1 || n < next_x || m < next_y || arr[next_x][next_y] == 6)
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;  
-                }                 
+                }  
+                cctv_cnt++;               
             }
             else if(arr[i][j] == 5)
             {
@@ -163,7 +209,10 @@ void Search()
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;  
                 }
                 check = 1;
@@ -175,7 +224,10 @@ void Search()
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }  
                     check++;  
                 }
                 check = 1;
@@ -187,7 +239,10 @@ void Search()
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }   
                     check++;  
                 }
                 check = 1;
@@ -199,10 +254,13 @@ void Search()
                     {
                         break;
                     }
-                    arr[next_x][next_y] = 7;   
+                    if(arr[next_x][next_y] == 0)
+                    {
+                        arr[next_x][next_y] = 7;
+                    }   
                     check++;  
-                }                 
-            }
+                }                
+            }            
         }
     }
 }
@@ -224,25 +282,23 @@ void Answer()
 }
 
 void Dfs(int depth)
-{
-    for(int i=1; i<=n; i++)
-    {
-        for(int j=1; j<=m; j++)
+{    
+    if(depth==cctv)
+    {        
+        for(int i=0; i<4; i++)
         {
-            if(old_arr[i][j] == 2)
-            {
-                for(int i=0; i<2; i++)
-                {
-                    flag[index] = i;
-                    Dfs(depth+1);
-                }
-            }
-            else if(old_arr[i][j] == cctv)
-            {
-                
-            }            
+            flag[depth]=i;
+            memcpy(arr , old_arr , sizeof(arr)); //ERROR_2 : 초기화            
+            Search();
+            Answer();
         }
+        return;
     }
+    for(int i=0; i<4; i++)
+    {
+        flag[depth] = i;
+        Dfs(depth+1);
+    }    
 }
 
 int main()
@@ -269,17 +325,26 @@ int main()
             }
         }
     }
-    Dfs(1);
-    cout << result;
-    cout << "\n";
-    for(int i=1; i<=n; i++)
+    if(cctv==0) //ERROR_3 : CCTV가 1개일 때 Dfs(1)에서 depth=1이므로 런타임에러가 발생합니다.
     {
-        for(int j=1; j<=m; j++)
+        int plz_give_answer= 0 ;
+        for(int i=1; i<=n; i++)
         {
-            cout << arr[i][j] << " ";
+            for(int j=1; j<=m; j++)
+            {
+                if(old_arr[i][j] == 0)
+                {
+                    plz_give_answer++;
+                }
+            }
         }
-        cout <<"\n";
+        cout << plz_give_answer;
+        return 0;
     }
+    Dfs(1);
+
+    cout << result;
+    
 	return 0;
 }
 
