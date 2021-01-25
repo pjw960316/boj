@@ -24,13 +24,32 @@ using namespace std;
 2. 어려웠던 부분
 
 */
-
+int n,m;
+int arr[10];
+void Dfs(int idx , int depth)
+{
+	if(depth > m)
+	{
+		for(int i=1; i<=m; i++)
+		{
+			cout << arr[i] << " ";
+		}
+		cout << "\n";
+		return;
+	}
+	for(int i=idx;i<=n; i++)
+	{
+		arr[depth] = i;
+		Dfs(i+1 , depth+1);
+	}
+}
 int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
-	
-    cout << 13*12*11*10*9*8/6/5/4/3/2;
+		
+	cin >> n >> m;
+	Dfs(1,1);
 	return 0;
 }
 
