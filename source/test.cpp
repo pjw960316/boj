@@ -25,12 +25,22 @@ using namespace std;
 
 */
 
+struct str
+{
+    double a;
+    int b;
+};
+
+str arr1[5];
+double arr2[5];
+int arr3[5];
+
 int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
 	
-    cout << 13*12*11*10*9*8/6/5/4/3/2;
+    cout << sizeof(arr1) << " " << sizeof(arr2) << " " << sizeof(arr3);
 	return 0;
 }
 
