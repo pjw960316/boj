@@ -24,16 +24,24 @@ using namespace std;
 2. 어려웠던 부분
 
 */
+vector<pair<int,int>> v;
 
 int main()
 {
 	ios_base :: sync_with_stdio(false);
 	cin.tie(NULL);
 	
-    int a = 12;
-    double b = 1.6;
-    double c = a*b;
-    printf("%f %d" , c , (int)c);
+    int n;
+    cin >> n;
+    if(n%2 == 1)
+    {
+        cout << "SK";
+    }
+    else
+    {
+        cout << "CY";
+    }
+    
 	return 0;
 }
 
