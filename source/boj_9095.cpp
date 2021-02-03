@@ -25,26 +25,29 @@ using namespace std;
 
 */
 
+int dp[12];
 int main()
 {
-    //int* arr = (int*)malloc(sizeof(int) * 10);
-    int* arr = new int[10];
-    for(int i=0 ; i<10; i++)
-    {
-        arr[i] = i+10;
-        cout << arr[i] << " ";
-    }
-    
-    pair<int,int>* arr2 = new pair<int,int>[10];
-    for(int i=0; i<10; i++)
-    {
-        arr2[i].first = i+10;
-        arr2[i].second = i+20;
-        cout << arr2[i].first << "/" << arr2[i].second << " ";    
-    }
-    delete[] arr2;
+	ios_base :: sync_with_stdio(false);
+	cin.tie(NULL);
+	
+    int tc,num;
+    cin >> tc;
 
+    dp[1] = 1;
+    dp[2] = 2;
+    dp[3] = 4;
+    for(int i=4; i<=11; i++)
+    {
+        dp[i] = dp[i-1] + dp[i-2] + dp[i-3];
+    }
     
+    for(int i=0; i<tc; i++)
+    {
+        cin >> num;
+        cout << dp[num] << "\n";
+    }
+	return 0;
 }
 
 

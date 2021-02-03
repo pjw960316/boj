@@ -15,7 +15,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-
+#define ULL unsigned long long
 using namespace std;
 
 /*
@@ -25,26 +25,24 @@ using namespace std;
 
 */
 
+ULL arr[1002];
 int main()
 {
-    //int* arr = (int*)malloc(sizeof(int) * 10);
-    int* arr = new int[10];
-    for(int i=0 ; i<10; i++)
+	ios_base :: sync_with_stdio(false);
+	cin.tie(NULL);
+	
+    int n;
+    cin >> n;
+    arr[1] = 1;
+    arr[2] = 2;
+    for(int i=3; i<=n; i++)
     {
-        arr[i] = i+10;
-        cout << arr[i] << " ";
+        arr[i] = (arr[i-2] + arr[i-1])%10007;
     }
+    cout << arr[n];
+	return 0;
     
-    pair<int,int>* arr2 = new pair<int,int>[10];
-    for(int i=0; i<10; i++)
-    {
-        arr2[i].first = i+10;
-        arr2[i].second = i+20;
-        cout << arr2[i].first << "/" << arr2[i].second << " ";    
-    }
-    delete[] arr2;
 
-    
 }
 
 

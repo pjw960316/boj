@@ -24,27 +24,23 @@ using namespace std;
 2. 어려웠던 부분
 
 */
-
+int dp[10000002];
 int main()
 {
-    //int* arr = (int*)malloc(sizeof(int) * 10);
-    int* arr = new int[10];
-    for(int i=0 ; i<10; i++)
-    {
-        arr[i] = i+10;
-        cout << arr[i] << " ";
-    }
-    
-    pair<int,int>* arr2 = new pair<int,int>[10];
-    for(int i=0; i<10; i++)
-    {
-        arr2[i].first = i+10;
-        arr2[i].second = i+20;
-        cout << arr2[i].first << "/" << arr2[i].second << " ";    
-    }
-    delete[] arr2;
+	ios_base :: sync_with_stdio(false);
+	cin.tie(NULL);
 
+    int n;
+    cin >> n;
     
+	dp[0] = 1;
+    dp[1] = 1;
+    for(int i=2; i<=n; i++)
+    {
+        dp[i] = (dp[i-2] + dp[i-1])%10;
+    }
+    cout << dp[n];
+	return 0;
 }
 
 
